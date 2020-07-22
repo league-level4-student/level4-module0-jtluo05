@@ -25,7 +25,6 @@ public class GridPanel extends JPanel {
 		this.windowHeight = h;
 		this.rows = r;
 		this.cols = c;
-		
 
 		this.pixelWidth = windowWidth / cols;
 		this.pixelHeight = windowHeight / rows;
