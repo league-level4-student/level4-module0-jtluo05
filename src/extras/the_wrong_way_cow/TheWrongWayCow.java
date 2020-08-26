@@ -43,10 +43,37 @@ package extras.the_wrong_way_cow;
 
 public class TheWrongWayCow {
 
-    public static int[] findWrongWayCow(final char[][] field) {
-        // Fill in the code to return the x,y coordinate position of the
-        // head (letter 'c') of the wrong way cow!
-        
-        return null;
-    }
+	public static int[] findWrongWayCow(final char[][] field) {
+		int north = 0;
+		int south = 0;
+		int east = 0;
+		int west = 0;
+		int row = 0;
+		int columns = 0;
+		
+		// Fill in the code to return the x,y coordinate position of the
+		// head (letter 'c') of the wrong way cow!
+		for (int i = 0; i < field.length; i++) {
+			for (int j = 0; j < field.length; j++) {
+				if (field[i][j] == 'c') {
+					if (field[i + 1][j] == 'o') {
+						east++;
+					}
+					if (field[i - 1][j] == 'o') {
+						west++;
+					}
+					if (field[i][j + 1] == 'o') {
+						north++;
+					}
+					if (field[i][j - 1] == 'o') {
+						south++;
+					}
+					
+				}
+				
+			}
+		}
+
+		return null;
+	}
 }
