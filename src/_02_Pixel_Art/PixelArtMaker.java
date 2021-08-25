@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
 public class PixelArtMaker implements MouseListener{
@@ -11,6 +12,7 @@ public class PixelArtMaker implements MouseListener{
 	private GridInputPanel gip;
 	private GridPanel gp;
 	ColorSelectionPanel csp;
+	
 	
 	public void start() {
 		gip = new GridInputPanel(this);	
