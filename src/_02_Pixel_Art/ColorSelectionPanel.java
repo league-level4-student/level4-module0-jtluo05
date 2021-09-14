@@ -6,8 +6,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Hashtable;
 
 import javax.swing.ImageIcon;
@@ -18,6 +23,8 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import _05_Serialization.SaveData;
 
 public class ColorSelectionPanel extends JPanel implements MouseListener, ChangeListener, ActionListener{
 	private static final long serialVersionUID = 1L;
@@ -38,10 +45,17 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
 	private JLabel colorLabel;
 	private BufferedImage colorImage;
 	
-	public ColorSelectionPanel() {
-		save.setName("save");
+	PixelArtMaker pam;
+	public ColorSelectionPanel(PixelArtMaker pam) {
+		save.setText("save");
 		save.addActionListener(this);
 		add(save);
+		this.pam=pam;
+		
+		load.setText("load");
+		load.addActionListener(this);
+		add(load);
+		
 		
 		rSlider = new JSlider(JSlider.VERTICAL);
 		gSlider = new JSlider(JSlider.VERTICAL);
@@ -139,16 +153,30 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		GridPanel gp=new GridPanel();
-		if (e.getSource()=="save") {
-			try {
-				FileWriter fw = new FileWriter("file.txt");
-				fw.write("\nThis is me writing a message");
-					
-				fw.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+		if (e.getSource()==save) {
+			System.out.println("saving");
+			try (FileOutputStream fos = new FileOutputStream(new File("file.txt")); ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+				oos.writeObject(this.pam.gp);
+			} catch (IOException k) {
+				k.printStackTrace();
 			}
+				}
+if (e.getSource()==load) {
+	System.out.println("loaded");
+	try (FileInputStream fis = new FileInputStream(new File("file.txt")); ObjectInputStream ois = new ObjectInputStream(fis)) {
+			this.pam.gp=(GridPanel) ois.readObject();
+		} catch (IOException l) {
+			l.printStackTrace();
+		} catch (ClassNotFoundException p) {
+			// This can occur if the object we read from the file is not
+			// an instance of any recognized class
+			p.printStackTrace();
 		}
+	this.pam.window.add(this.pam.gp);
+	this.pam.gp.repaint();
+
+}
+		
+	
 	}
 }
